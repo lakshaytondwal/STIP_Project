@@ -1,0 +1,71 @@
+#!/bin/bash
+
+sudo systemctl stop NetworkManager
+
+json_file="/etc/list"
+
+# Use jq to extract word pairs and store them in an array
+mapfile -t word_pairs < <(jq -c '.host_mac_mac[]' "$json_file")
+
+# Get the number of elements (word pairs) in the array
+pair_count=${#word_pairs[@]}
+
+# Generate a random index based on the number of word pairs
+random_index=$((RANDOM % pair_count))
+
+# Select the random word pair (in JSON format)
+selected_pair=${word_pairs[$random_index]}
+
+# Use jq again to extract individual words from the selected pair
+hostname=$(echo "$selected_pair" | jq -r '.[0]')
+mac=$(echo "$selected_pair" | jq -r '.[1]')
+mac1=$(echo "$selected_pair" | jq -r '.[2]')
+
+
+
+
+
+#Spoofing Host
+
+echo -e "\n"
+echo "Changing hostname to $hostname"
+sudo hostnamectl set-hostname $hostname
+echo -e "\n"
+
+
+
+# Define the file path
+file_path="/etc/hosts"
+
+# Clear the file
+sudo truncate -s 0 "$file_path"
+
+# Write to the file using echo
+echo "127.0.0.1	localhost" | sudo tee -a "$file_path"
+echo "127.0.1.1	$hostname" | sudo tee -a "$file_path"
+echo "" | sudo tee -a "$file_path"
+echo "# The following lines are desirable for IPv6 capable hosts" | sudo tee -a "$file_path"
+echo "::1     localhost ip6-localhost ip6-loopback" | sudo tee -a "$file_path"
+echo "ff02::1 ip6-allnodes" | sudo tee -a "$file_path"
+echo "ff02::2 ip6-allrouters" | sudo tee -a "$file_path"
+
+# Print a message
+echo "Hosts file has been updated."
+
+
+
+
+
+#Spoofing MAC
+
+echo -e "\n"
+echo "wlan0"
+echo " "
+sudo macchanger -m $mac wlan0
+echo -e "\n"
+
+echo "eth0" 
+echo  " "
+sudo macchanger -m $mac1 eth0
+
+sudo systemctl start NetworkManager
