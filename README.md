@@ -18,3 +18,20 @@ Ensure the following dependencies are installed:
 - **jq**: A lightweight and flexible command-line JSON processor.
 - **macchanger**: A utility for manipulating MAC addresses.
 - **gcc**: For compiling the C program.
+
+### Requirements
+
+- A Linux distribution.
+- Sufficient privileges to change MAC addresses (root or sudo).
+- Network connectivity for testing port scanning.
+
+## Usage
+
+### Running the Bash Script
+
+To spoof the hostname and MAC address, execute the following command:
+
+```bash
+chmod +x macch
+./macch
+
