@@ -2,7 +2,7 @@
 
 sudo systemctl stop NetworkManager
 
-json_file="list"
+json_file="/etc/list"
 
 # Use jq to extract word pairs and store them in an array
 mapfile -t word_pairs < <(jq -c '.host_mac_mac[]' "$json_file")
@@ -61,11 +61,11 @@ echo "Hosts file has been updated."
 echo -e "\n"
 echo "wlan0"
 echo " "
-sudo macchanger -m $mac wlan0
+sudo ./macc wlan0 $mac 
 echo -e "\n"
 
 echo "eth0" 
 echo  " "
-sudo macchanger -m $mac1 eth0
+sudo ./macc eth0 $mac1 
 
 sudo systemctl start NetworkManager
