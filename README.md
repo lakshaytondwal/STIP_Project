@@ -4,7 +4,7 @@ This project contains a Bash script and a C program for network-related tasks, i
 
 ## Contents
 
-- **`macch`**: A Bash script to spoof hostname and MAC addresses on a Linux system by acting as an interface among  .
+- **`macch`**: A Bash script to spoof hostname and MAC addresses on a Linux system by acting as an interface.
 - **`list`**: A JSON file containing list of hostname and MAC addresses.
 - **`mac.c`**: A code which changes the MAC address written in C.
 - **`macc`**: Compiled output of mac.c code.
