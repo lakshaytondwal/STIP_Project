@@ -2,8 +2,7 @@
 
 sudo systemctl stop NetworkManager
 
-json_file="/etc/list"
-
+json_file="./list"
 # Use jq to extract word pairs and store them in an array
 mapfile -t word_pairs < <(jq -c '.host_mac_mac[]' "$json_file")
 
